@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMART TRANSIT HUB</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body {
+      background: #f3f6fc;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .section { display: none; }
+    .section.active { display: block; }
+
+    /* Card Styling */
+    .card {
+      transition: 0.35s ease;
+      background: white;
+      border-radius: 18px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      padding: 24px;
+    }
+    .card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.15);
+    }
+
+    /* Heading Gradient */
+    .title-gradient {
+      background: linear-gradient(45deg, #005eff, #00c6ff);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    /* Mobile Menu */
+    .mobile-menu { display: none; }
+    @media(max-width: 768px) {
+      .desktop-menu { display: none; }
+      .mobile-menu { display: block; }
+    }
+
+    /* Animation */
+    .fade {
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="text-gray-800">
+
+  <!-- NAVIGATION -->
+  <nav class="bg-white shadow-md py-4 fixed top-0 left-0 right-0 z-50">
+    <div class="container mx-auto flex justify-between items-center px-4">
+      <h1 class="text-3xl font-extrabold title-gradient">SmartTransit</h1>
+
+      <div class="desktop-menu space-x-6 text-lg font-medium">
+        <button onclick="showSection('home')" class="hover:text-blue-600">Home</button>
+        <button onclick="showSection('passenger')" class="hover:text-blue-600">Passenger</button>
+        <button onclick="showSection('driver')" class="hover:text-blue-600">Driver</button>
+        <button onclick="showSection('station')" class="hover:text-blue-600">Station</button>
+      </div>
+
+      <button class="mobile-menu" onclick="toggleMenu()">
+        <i data-lucide="menu" class="w-8 h-8"></i>
+      </button>
+    </div>
+
+    <!-- MOBILE DROPDOWN -->
+    <div id="mobileMenuBox" class="mobile-menu bg-white shadow-md p-4 hidden text-lg font-medium">
+      <button onclick="showSection('home'); toggleMenu()" class="block py-2">Home</button>
+      <button onclick="showSection('passenger'); toggleMenu()" class="block py-2">Passenger</button>
+      <button onclick="showSection('driver'); toggleMenu()" class="block py-2">Driver</button>
+      <button onclick="showSection('station'); toggleMenu()" class="block py-2">Station</button>
+    </div>
+  </nav>
+
+  <div class="pt-24"></div>
+
+  <!-- HOME -->
+  <section id="home" class="section active fade">
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-r from-blue-600 to-green-600 text-white py-20">
+      <div class="container mx-auto px-4 text-center">
+        <h1 class="text-6xl md:text-7xl font-extrabold mb-6">Hệ Thống Xe Buýt Thông Minh</h1>
+        <p class="text-xl md:text-2xl mb-8 opacity-90 max-w-3xl mx-auto">
+          Giải pháp công nghệ hiện đại cho giao thông công cộng. Theo dõi tuyến đường, thanh toán dễ dàng, trải nghiệm tuyệt vời.
+        </p>
+        <div class="flex flex-col md:flex-row gap-4 justify-center">
+          <button onclick="showSection('passenger')" class="px-8 py-4 bg-white text-blue-600 rounded-lg font-bold text-lg hover:bg-gray-100 transition">
+            Tải Ứng Dụng Ngay
+          </button>
+          <button onclick="showSection('passenger')" class="px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg font-bold text-lg hover:bg-white/10 transition">
+            Xem Demo
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Access Cards -->
+    <div class="container mx-auto px-4 py-16">
+      <h2 class="text-5xl font-extrabold text-center title-gradient mb-12">Truy Cập Nhanh</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div class="card text-center">
+          <i data-lucide="smartphone" class="w-14 h-14 text-blue-600 mb-4 mx-auto"></i>
+          <h3 class="text-2xl font-bold mb-2">Ứng Dụng Hành Khách</h3>
+          <p class="text-gray-600 mb-4">Tìm tuyến đường, theo dõi xe buýt, thanh toán QR code.</p>
+          <button onclick="showSection('passenger')" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg">Mở</button>
+        </div>
+
+        <div class="card text-center">
+          <i data-lucide="bus" class="w-14 h-14 text-green-600 mb-4 mx-auto"></i>
+          <h3 class="text-2xl font-bold mb-2">Giao Diện Tài Xế</h3>
+          <p class="text-gray-600 mb-4">Bảng điều khiển chuyến đi, cảnh báo, số lượng hành khách.</p>
+          <button onclick="showSection('driver')" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg">Mở</button>
+        </div>
+
+        <div class="card text-center">
+          <i data-lucide="building" class="w-14 h-14 text-purple-600 mb-4 mx-auto"></i>
+          <h3 class="text-2xl font-bold mb-2">Màn Hình Trạm Xe</h3>
+          <p class="text-gray-600 mb-4">Thời gian đến, thông tin tuyến đường, thời tiết.</p>
+          <button onclick="showSection('station')" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg">Mở</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="bg-white py-16">
+      <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-4xl font-bold mb-6 title-gradient">Về Smart Transit Hub</h2>
+            <p class="text-lg text-gray-700 mb-4">
+              Smart Transit Hub là hệ thống quản lý xe buýt thông minh, tích hợp công nghệ hiện đại để mang lại trải nghiệm tốt nhất cho hành khách, tài xế và nhà quản lý.
+            </p>
+            <p class="text-lg text-gray-700 mb-6">
+              Với ứng dụng di động thân thiện, hệ thống theo dõi thời gian thực, và thanh toán không tiền mặt, chúng tôi đang cách mạng hóa giao thông công cộng.
+            </p>
+            <ul class="space-y-3 text-gray-700">
+              <li class="flex items-center gap-3">
+                <i data-lucide="check-circle" class="w-6 h-6 text-green-600"></i>
+                <span>Hơn 500 xe buýt hoạt động</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <i data-lucide="check-circle" class="w-6 h-6 text-green-600"></i>
+                <span>200+ tuyến đường phủ sóng</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <i data-lucide="check-circle" class="w-6 h-6 text-green-600"></i>
+                <span>50,000+ người dùng tin tưởng</span>
+              </li>
+            </ul>
+          </div>
+          <div class="bg-gradient-to-br from-blue-50 to-green-50 p-8 rounded-2xl">
+            <div class="grid grid-cols-2 gap-6">
+              <div class="text-center p-6 bg-white rounded-xl">
+                <div class="text-4xl font-bold text-blue-600 mb-2">500+</div>
+                <div class="text-gray-600">Xe Buýt</div>
+              </div>
+              <div class="text-center p-6 bg-white rounded-xl">
+                <div class="text-4xl font-bold text-green-600 mb-2">200+</div>
+                <div class="text-gray-600">Tuyến Đường</div>
+              </div>
+              <div class="text-center p-6 bg-white rounded-xl">
+                <div class="text-4xl font-bold text-purple-600 mb-2">50K+</div>
+                <div class="text-gray-600">Người Dùng</div>
+              </div>
+              <div class="text-center p-6 bg-white rounded-xl">
+                <div class="text-4xl font-bold text-orange-600 mb-2">24/7</div>
+                <div class="text-gray-600">Hỗ Trợ</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="container mx-auto px-4 py-16">
+      <h2 class="text-4xl font-bold text-center mb-12 title-gradient">Tính Năng Nổi Bật</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="card">
+          <i data-lucide="map" class="w-12 h-12 text-blue-600 mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">Theo Dõi Thời Gian Thực</h3>
+          <p class="text-gray-600">Xem vị trí xe buýt và thời gian đến trạm chính xác, giúp bạn lên kế hoạch di chuyển tốt hơn.</p>
+        </div>
+        <div class="card">
+          <i data-lucide="credit-card" class="w-12 h-12 text-green-600 mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">Thanh Toán Không Tiền Mặt</h3>
+          <p class="text-gray-600">Thanh toán bằng QR code hoặc NFC, nhanh chóng và tiện lợi. Không cần mang tiền mặt.</p>
+        </div>
+        <div class="card">
+          <i data-lucide="route" class="w-12 h-12 text-purple-600 mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">Tìm Đường Tối Ưu</h3>
+          <p class="text-gray-600">Tìm tuyến đường nhanh nhất với số lần chuyển xe ít nhất, tiết kiệm thời gian của bạn.</p>
+        </div>
+        <div class="card">
+          <i data-lucide="bell" class="w-12 h-12 text-orange-600 mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">Thông Báo Thông Minh</h3>
+          <p class="text-gray-600">Nhận thông báo về thay đổi tuyến đường, trễ xe, và các thông tin quan trọng khác.</p>
+        </div>
+        <div class="card">
+          <i data-lucide="users" class="w-12 h-12 text-red-600 mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">Tình Trạng Đông Đúc</h3>
+          <p class="text-gray-600">Xem số lượng hành khách trên xe để quyết định có nên đợi chuyến tiếp theo không.</p>
+        </div>
+        <div class="card">
+          <i data-lucide="history" class="w-12 h-12 text-indigo-600 mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">Lịch Sử Chuyến Đi</h3>
+          <p class="text-gray-600">Theo dõi lịch sử các chuyến đi của bạn, chi phí và tuyến đường đã sử dụng.</p>
+        </div>
+        <div class="card">
+          <i data-lucide="heart" class="w-12 h-12 text-pink-600 mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">Tuyến Yêu Thích</h3>
+          <p class="text-gray-600">Lưu các tuyến đường thường xuyên sử dụng để truy cập nhanh chóng.</p>
+        </div>
+        <div class="card">
+          <i data-lucide="shield-check" class="w-12 h-12 text-teal-600 mb-4"></i>
+          <h3 class="text-xl font-bold mb-2">Bảo Mật Cao</h3>
+          <p class="text-gray-600">Hệ thống bảo mật đa lớp, đảm bảo thông tin và giao dịch của bạn an toàn.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Benefits Section -->
+    <div class="bg-gradient-to-r from-blue-50 to-green-50 py-16">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12 title-gradient">Lợi Ích Khi Sử Dụng</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="card text-center">
+            <div class="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i data-lucide="clock" class="w-10 h-10 text-white"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-3">Tiết Kiệm Thời Gian</h3>
+            <p class="text-gray-600">Biết chính xác thời gian xe đến, không cần đợi lâu tại trạm. Lên kế hoạch di chuyển hiệu quả.</p>
+          </div>
+          <div class="card text-center">
+            <div class="w-20 h-20 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i data-lucide="dollar-sign" class="w-10 h-10 text-white"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-3">Tiết Kiệm Chi Phí</h3>
+            <p class="text-gray-600">Thanh toán điện tử với nhiều ưu đãi. Theo dõi chi tiêu dễ dàng qua ứng dụng.</p>
+          </div>
+          <div class="card text-center">
+            <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i data-lucide="smile" class="w-10 h-10 text-white"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-3">Trải Nghiệm Tốt</h3>
+            <p class="text-gray-600">Giao diện thân thiện, dễ sử dụng. Hỗ trợ 24/7, giải đáp mọi thắc mắc nhanh chóng.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    <div class="container mx-auto px-4 py-16">
+      <h2 class="text-4xl font-bold text-center mb-12 title-gradient">Đánh Giá Từ Người Dùng</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="card">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold mr-3">
+              NA
+            </div>
+            <div>
+              <h4 class="font-bold">Nguyễn Văn A</h4>
+              <div class="flex text-yellow-400">
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              </div>
+            </div>
+          </div>
+          <p class="text-gray-600">"Ứng dụng rất tiện lợi! Tôi có thể biết chính xác khi nào xe đến, không cần đợi lâu nữa. Thanh toán QR code cũng rất nhanh."</p>
+        </div>
+        <div class="card">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white font-bold mr-3">
+              TB
+            </div>
+            <div>
+              <h4 class="font-bold">Trần Thị B</h4>
+              <div class="flex text-yellow-400">
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              </div>
+            </div>
+          </div>
+          <p class="text-gray-600">"Tính năng tìm đường rất hay, gợi ý tuyến đường tối ưu. Giao diện đẹp và dễ sử dụng. Rất hài lòng!"</p>
+        </div>
+        <div class="card">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold mr-3">
+              LC
+            </div>
+            <div>
+              <h4 class="font-bold">Lê Văn C</h4>
+              <div class="flex text-yellow-400">
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              </div>
+            </div>
+          </div>
+          <p class="text-gray-600">"Tôi sử dụng ứng dụng này hàng ngày để đi làm. Rất tiện lợi, đặc biệt là tính năng xem tình trạng đông đúc của xe."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="bg-white py-16">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12 title-gradient">Cách Thức Hoạt Động</h2>
+        <div class="max-w-4xl mx-auto">
+          <div class="grid md:grid-cols-3 gap-8">
+            <div class="text-center">
+              <div class="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">1</div>
+              <h3 class="text-2xl font-bold mb-3">Tải Ứng Dụng</h3>
+              <p class="text-gray-600">Tải ứng dụng Smart Transit Hub miễn phí trên App Store hoặc Google Play Store.</p>
+            </div>
+            <div class="text-center">
+              <div class="w-20 h-20 bg-green-600 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">2</div>
+              <h3 class="text-2xl font-bold mb-3">Đăng Ký & Nạp Tiền</h3>
+              <p class="text-gray-600">Tạo tài khoản và nạp tiền vào ví điện tử để sử dụng dịch vụ thanh toán.</p>
+            </div>
+            <div class="text-center">
+              <div class="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-4">3</div>
+              <h3 class="text-2xl font-bold mb-3">Bắt Đầu Di Chuyển</h3>
+              <p class="text-gray-600">Tìm tuyến đường, quét mã QR khi lên xe và tận hưởng chuyến đi thuận tiện.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="bg-gradient-to-r from-blue-50 to-green-50 py-16">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12 title-gradient">Câu Hỏi Thường Gặp</h2>
+        <div class="max-w-3xl mx-auto space-y-4">
+          <div class="card">
+            <h3 class="text-xl font-bold mb-2">Làm thế nào để tải ứng dụng?</h3>
+            <p class="text-gray-600">Bạn có thể tải ứng dụng Smart Transit Hub từ App Store (iOS) hoặc Google Play Store (Android) hoàn toàn miễn phí.</p>
+          </div>
+          <div class="card">
+            <h3 class="text-xl font-bold mb-2">Thanh toán có an toàn không?</h3>
+            <p class="text-gray-600">Có, hệ thống của chúng tôi sử dụng mã hóa SSL và tuân thủ các tiêu chuẩn bảo mật quốc tế. Thông tin thanh toán của bạn được bảo vệ tuyệt đối.</p>
+          </div>
+          <div class="card">
+            <h3 class="text-xl font-bold mb-2">Làm sao để nạp tiền vào ví?</h3>
+            <p class="text-gray-600">Bạn có thể nạp tiền qua thẻ ngân hàng, ví điện tử (MoMo, ZaloPay) hoặc tại các điểm giao dịch được chỉ định.</p>
+          </div>
+          <div class="card">
+            <h3 class="text-xl font-bold mb-2">Ứng dụng có miễn phí không?</h3>
+            <p class="text-gray-600">Ứng dụng hoàn toàn miễn phí. Bạn chỉ cần trả phí khi sử dụng dịch vụ đi xe buýt, tương tự như mua vé truyền thống.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Download App Section -->
+    <div class="container mx-auto px-4 py-16">
+      <div class="bg-gradient-to-r from-blue-600 to-green-600 rounded-2xl p-12 text-white text-center">
+        <h2 class="text-4xl font-bold mb-4">Tải Ứng Dụng Ngay Hôm Nay</h2>
+        <p class="text-xl mb-8 opacity-90">Trải nghiệm giao thông công cộng thông minh và tiện lợi</p>
+        <div class="flex flex-col md:flex-row gap-4 justify-center">
+          <button class="px-6 py-3 bg-white text-blue-600 rounded-lg font-bold hover:bg-gray-100 transition flex items-center justify-center gap-2">
+            <i data-lucide="smartphone" class="w-6 h-6"></i>
+            App Store
+          </button>
+          <button class="px-6 py-3 bg-white text-green-600 rounded-lg font-bold hover:bg-gray-100 transition flex items-center justify-center gap-2">
+            <i data-lucide="smartphone" class="w-6 h-6"></i>
+            Google Play
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- News/Blog Section -->
+    <div class="bg-white py-16">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12 title-gradient">Tin Tức & Cập Nhật</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="card">
+            <div class="bg-gradient-to-br from-blue-400 to-blue-600 h-48 rounded-lg mb-4 flex items-center justify-center">
+              <i data-lucide="newspaper" class="w-16 h-16 text-white"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Mở Rộng Tuyến Đường Mới</h3>
+            <p class="text-gray-600 mb-3">Chúng tôi đã thêm 20 tuyến đường mới phục vụ các khu vực ngoại thành...</p>
+            <span class="text-blue-600 font-semibold">Đọc thêm →</span>
+          </div>
+          <div class="card">
+            <div class="bg-gradient-to-br from-green-400 to-green-600 h-48 rounded-lg mb-4 flex items-center justify-center">
+              <i data-lucide="gift" class="w-16 h-16 text-white"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Chương Trình Khuyến Mãi</h3>
+            <p class="text-gray-600 mb-3">Nạp tiền lần đầu nhận ngay 20,000₫ vào tài khoản. Áp dụng cho 1000 người đầu tiên...</p>
+            <span class="text-green-600 font-semibold">Đọc thêm →</span>
+          </div>
+          <div class="card">
+            <div class="bg-gradient-to-br from-purple-400 to-purple-600 h-48 rounded-lg mb-4 flex items-center justify-center">
+              <i data-lucide="settings" class="w-16 h-16 text-white"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Cập Nhật Tính Năng Mới</h3>
+            <p class="text-gray-600 mb-3">Phiên bản 2.0 với nhiều cải tiến: giao diện mới, tốc độ nhanh hơn, thêm ngôn ngữ...</p>
+            <span class="text-purple-600 font-semibold">Đọc thêm →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Partners Section -->
+    <div class="bg-gray-100 py-16">
+      <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-12 title-gradient">Đối Tác Của Chúng Tôi</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div class="card text-center flex items-center justify-center h-32">
+            <div class="text-2xl font-bold text-gray-400">Đối Tác 1</div>
+          </div>
+          <div class="card text-center flex items-center justify-center h-32">
+            <div class="text-2xl font-bold text-gray-400">Đối Tác 2</div>
+          </div>
+          <div class="card text-center flex items-center justify-center h-32">
+            <div class="text-2xl font-bold text-gray-400">Đối Tác 3</div>
+          </div>
+          <div class="card text-center flex items-center justify-center h-32">
+            <div class="text-2xl font-bold text-gray-400">Đối Tác 4</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Final CTA -->
+    <div class="container mx-auto px-4 py-16">
+      <div class="card bg-gradient-to-r from-blue-600 to-green-600 text-white text-center p-12">
+        <h2 class="text-4xl font-bold mb-4">Sẵn Sàng Bắt Đầu?</h2>
+        <p class="text-xl mb-8 opacity-90">Tham gia cùng hàng nghìn người dùng đang tận hưởng trải nghiệm giao thông thông minh</p>
+        <button onclick="showSection('passenger')" class="px-8 py-4 bg-white text-blue-600 rounded-lg font-bold text-lg hover:bg-gray-100 transition">
+          Đăng Ký Ngay
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PASSENGER -->
+  <section id="passenger" class="section container mx-auto px-4 py-16 fade">
+    <h2 class="text-4xl font-bold mb-6 title-gradient">Passenger Application</h2>
+
+    <div class="card mb-8">
+      <h3 class="text-2xl font-semibold mb-4">Features</h3>
+      <ul class="list-disc ml-6 text-gray-700 text-lg">
+        <li>Route search</li>
+        <li>QR ticket payment</li>
+        <li>Wallet management</li>
+        <li>Live bus tracking</li>
+      </ul>
+    </div>
+
+    <div class="h-[500px] bg-gray-200 rounded-xl flex items-center justify-center text-gray-500 text-xl font-semibold">
+      Passenger UI Preview
+    </div>
+  </section>
+
+
+  <!-- DRIVER -->
+  <section id="driver" class="section container mx-auto px-4 py-16 fade">
+    <h2 class="text-4xl font-bold mb-6 title-gradient">Driver Dashboard</h2>
+
+    <div class="card mb-6 text-lg text-gray-700">
+      <p>• Passenger count</p>
+      <p>• Speed monitor</p>
+      <p>• Stop requests</p>
+      <p>• Emergency reporting</p>
+    </div>
+
+    <div class="h-[500px] bg-gray-300 rounded-xl flex items-center justify-center text-gray-600 text-xl font-semibold">
+      Driver UI Preview
+    </div>
+  </section>
+
+
+  <!-- STATION -->
+  <section id="station" class="section container mx-auto px-4 py-16 fade">
+    <h2 class="text-4xl font-bold mb-6 title-gradient">Station Kiosk</h2>
+
+    <div class="card mb-6 text-lg text-gray-700">
+      <p>• Next arrival time</p>
+      <p>• Route information</p>
+      <p>• Bus crowd level</p>
+      <p>• Local weather & notifications</p>
+    </div>
+
+    <div class="h-[500px] bg-gray-200 rounded-xl flex items-center justify-center text-gray-500 text-xl font-semibold">
+      Station Display Preview
+    </div>
+  </section>
+
+
+  <footer class="bg-gray-900 text-white text-center py-4 mt-10 text-lg">
+    © 2025 Smart Transit Hub — All rights reserved.
+  </footer>
+
+
+  <script>
+    lucide.createIcons();
+
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMenu() {
+      const menu = document.getElementById('mobileMenuBox');
+      menu.classList.toggle('hidden');
+    }
+  </script>
+
+</body>
+</html>

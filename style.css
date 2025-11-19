@@ -1,0 +1,111 @@
+/* Page Management */
+.page {
+    display: none;
+}
+.page.active {
+    display: block;
+}
+
+/* Navigation */
+.nav-link.active {
+    color: #3b82f6;
+    border-bottom: 2px solid #3b82f6;
+}
+
+/* Device Frames */
+.phone-frame {
+    width: 375px;
+    height: 812px;
+    border: 8px solid #1f2937;
+    border-radius: 40px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.tablet-frame {
+    width: 768px;
+    height: 1024px;
+    border: 12px solid #1f2937;
+    border-radius: 20px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.kiosk-frame {
+    width: 100%;
+    max-width: 1920px;
+    height: 1080px;
+    border: 4px solid #1f2937;
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+/* Screen Management */
+.screen {
+    display: none;
+}
+.screen.active {
+    display: block;
+}
+
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+
+.nav-item.active {
+    color: #3b82f6;
+    border-top: 3px solid #3b82f6;
+}
+
+/* Map Placeholder */
+.map-placeholder {
+    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.map-placeholder::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 20px, rgba(59, 130, 246, 0.1) 20px, rgba(59, 130, 246, 0.1) 21px),
+        repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(59, 130, 246, 0.1) 20px, rgba(59, 130, 246, 0.1) 21px);
+}
+
+/* QR Code Placeholder */
+.qr-placeholder {
+    background: white;
+    border: 2px dashed #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Animations */
+.pulse-animation {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .5;
+    }
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
