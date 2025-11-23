@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Bus - Hành Khách</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Login Screen -->
+        <div id="login-screen" class="screen active">
+            <div class="login-container">
+                <div class="logo-section">
+                    <div class="logo">🚌</div>
+                    <h1>Smart Bus</h1>
+                    <p>Hệ thống xe buýt thông minh</p>
+                </div>
+
+                <div class="login-card">
+                    <h2>Đăng Nhập</h2>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="username">Tên đăng nhập</label>
+                            <input type="text" id="username" placeholder="Nhập tên đăng nhập" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Mật khẩu</label>
+                            <input type="password" id="password" placeholder="Nhập mật khẩu" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Đăng Nhập</button>
+                    </form>
+                    <div class="login-help">
+                        <p>Tài khoản mẫu: passenger1 / password123</p>
+                        <p><a href="./" style="color: #2563eb;">← Quay lại trang chủ</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main App Screen -->
+        <div id="main-screen" class="screen">
+            <!-- Header -->
+            <header class="app-header">
+                <div class="header-content">
+                    <div class="header-left">
+                        <div class="logo-small">🚌</div>
+                        <h1>Smart Bus</h1>
+                    </div>
+                    <div class="header-right">
+                        <div class="balance-badge" id="balance-badge">
+                            <span class="balance-label">Số dư:</span>
+                            <span class="balance-amount" id="balance-amount">0 VND</span>
+                        </div>
+                        <button class="btn btn-icon" id="logout-btn" title="Đăng xuất">
+                            <span>🚪</span>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Navigation -->
+            <nav class="app-nav">
+                <button class="nav-item active" data-tab="routes">
+                    <span class="nav-icon">🗺️</span>
+                    <span class="nav-label">Tuyến xe</span>
+                </button>
+                <button class="nav-item" data-tab="trips">
+                    <span class="nav-icon">🚌</span>
+                    <span class="nav-label">Chuyến đi</span>
+                </button>
+                <button class="nav-item" data-tab="nfc">
+                    <span class="nav-icon">💳</span>
+                    <span class="nav-label">Quét thẻ</span>
+                </button>
+                <button class="nav-item" data-tab="account">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-label">Tài khoản</span>
+                </button>
+            </nav>
+
+            <!-- Content Area -->
+            <main class="app-content">
+                <!-- Routes Tab -->
+                <div id="routes-tab" class="tab-content active">
+                    <div class="tab-header">
+                        <h2>Các Tuyến Xe</h2>
+                        <button class="btn btn-secondary" id="refresh-routes-btn">🔄 Làm mới</button>
+                    </div>
+                    <div id="routes-list" class="routes-list">
+                        <div class="loading">Đang tải dữ liệu...</div>
+                    </div>
+                </div>
+
+                <!-- Trips Tab -->
+                <div id="trips-tab" class="tab-content">
+                    <div class="tab-header">
+                        <h2>Chuyến Xe Đang Hoạt Động</h2>
+                        <button class="btn btn-secondary" id="refresh-trips-btn">🔄 Làm mới</button>
+                    </div>
+                    <div id="trips-list" class="trips-list">
+                        <div class="loading">Đang tải dữ liệu...</div>
+                    </div>
+                </div>
+
+                <!-- NFC Tab -->
+                <div id="nfc-tab" class="tab-content">
+                    <div class="nfc-section">
+                        <div class="nfc-card">
+                            <h2>Quét Thẻ NFC</h2>
+                            <div class="nfc-status" id="nfc-status">
+                                <div class="nfc-icon">💳</div>
+                                <p>Chạm thẻ hoặc điện thoại vào đầu đọc</p>
+                            </div>
+
+                            <div class="nfc-simulation">
+                                <h3>Mô phỏng NFC</h3>
+                                <div class="form-group">
+                                    <label for="trip-select">Chọn chuyến xe</label>
+                                    <select id="trip-select" class="form-control">
+                                        <option value="">-- Chọn chuyến xe --</option>
+                                    </select>
+                                </div>
+                                <div class="nfc-buttons">
+                                    <button class="btn btn-success" id="tap-in-btn">
+                                        <span>✅ Quét lên xe</span>
+                                    </button>
+                                    <button class="btn btn-danger" id="tap-out-btn" disabled>
+                                        <span>❌ Quét xuống xe</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Tab -->
+                <div id="account-tab" class="tab-content">
+                    <div class="account-section">
+                        <div class="account-card">
+                            <h2>Thông Tin Tài Khoản</h2>
+                            <div id="profile-info" class="profile-info">
+                                <div class="loading">Đang tải...</div>
+                            </div>
+                        </div>
+
+                        <div class="account-card">
+                            <h2>Nạp Tiền</h2>
+                            <form id="topup-form">
+                                <div class="form-group">
+                                    <label for="topup-amount">Số tiền nạp (VND)</label>
+                                    <input type="number" id="topup-amount" min="10000" step="10000"
+                                        placeholder="Nhập số tiền" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">💰 Nạp tiền</button>
+                            </form>
+                        </div>
+
+                        <div class="account-card">
+                            <h2>Lịch Sử Giao Dịch</h2>
+                            <div id="transactions-list" class="transactions-list">
+                                <div class="loading">Đang tải...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script type="module" src="./app.js"></script>
+</body>
+
+</html>

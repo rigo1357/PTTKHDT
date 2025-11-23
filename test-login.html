@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Bus - Test Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+        }
+
+        input {
+            padding: 8px;
+            margin: 5px;
+            display: block;
+            width: 300px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="login-screen" class="screen active">
+        <h1>Login</h1>
+        <input type="text" id="user" value="passenger1" placeholder="Username">
+        <input type="password" id="pass" value="password123" placeholder="Password">
+        <button onclick="testLogin()">Login</button>
+        <div id="msg"></div>
+    </div>
+
+    <div id="main-screen" class="screen">
+        <h1>Main Screen</h1>
+        <p>Login successful!</p>
+        <button onclick="testLogout()">Logout</button>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+
+        async function testLogin() {
+            const username = document.getElementById('user').value;
+            const password = document.getElementById('pass').value;
+            const msg = document.getElementById('msg');
+
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+                msg.textContent = JSON.stringify(data);
+
+                if (data.success) {
+                    localStorage.setItem('token', data.data.token);
+                    showScreen('main');
+                } else {
+                    msg.textContent = 'Login failed: ' + data.message;
+                }
+            } catch (error) {
+                msg.textContent = 'Error: ' + error.message;
+                console.error(error);
+            }
+        }
+
+        function testLogout() {
+            localStorage.removeItem('token');
+            showScreen('login');
+        }
+
+        function showScreen(screen) {
+            document.getElementById('login-screen').classList.remove('active');
+            document.getElementById('main-screen').classList.remove('active');
+            document.getElementById(screen + '-screen').classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Bus - Giao Diện Tài Xế</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .driver-dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .dashboard-header {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .dashboard-title h1 {
+            font-size: 2rem;
+            color: #1e3c72;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+        }
+
+        .driver-info {
+            text-align: right;
+        }
+
+        .driver-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .route-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+        }
+
+        .stat-content h3 {
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .notifications-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #1e3c72;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .notification-item {
+            background: linear-gradient(to right, #f0f9ff, #e0f2fe);
+            border-left: 4px solid #0ea5e9;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .notification-item.exit {
+            background: linear-gradient(to right, #fef3c7, #fde68a);
+            border-left-color: #f59e0b;
+        }
+
+        .notification-item.board {
+            background: linear-gradient(to right, #dcfce7, #bbf7d0);
+            border-left-color: #10b981;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .notification-detail {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .btn-acknowledge {
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn-acknowledge:hover {
+            background: #0284c7;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #94a3b8;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .login-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-card h2 {
+            text-align: center;
+            color: #1e3c72;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .btn-login:hover {
+            transform: scale(1.05);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #1e293b;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transform: translateY(200%);
+            transition: transform 0.3s;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            background: #10b981;
+        }
+
+        .toast.error {
+            background: #ef4444;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-card">
+            <h2>🚌 Đăng Nhập Tài Xế</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label>Tên đăng nhập</label>
+                    <input type="text" id="username" placeholder="Nhập tên đăng nhập" required>
+                </div>
+                <div class="form-group">
+                    <label>Mật khẩu</label>
+                    <input type="password" id="password" placeholder="Nhập mật khẩu" required>
+                </div>
+                <button type="submit" class="btn-login">Đăng Nhập</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem; color: #64748b; font-size: 0.9rem;">
+                Tài khoản mẫu: driver1 / password123
+            </p>
+        </div>
+    </div>
+
+    <!-- Driver Dashboard -->
+    <div id="dashboard-screen" class="driver-dashboard hidden">
+        <div class="dashboard-header">
+            <div class="dashboard-title">
+                <span class="logo-icon">🚌</span>
+                <h1>Giao Diện Tài Xế</h1>
+            </div>
+            <div class="driver-info">
+                <div class="driver-name" id="driver-name">Loading...</div>
+                <div class="route-badge" id="route-badge">Tuyến --</div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-content">
+                    <h3>Hành Khách</h3>
+                    <div class="stat-value" id="passenger-count">0</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-content">
+                    <h3>Tốc Độ</h3>
+                    <div class="stat-value" id="current-speed">0<span style="font-size: 1rem;"> km/h</span></div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🚏</div>
+                <div class="stat-content">
+                    <h3>Trạm Kế Tiếp</h3>
+                    <div class="stat-value" style="font-size: 1.2rem;" id="next-station">--</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-content">
+                    <h3>Thời Gian Đến</h3>
+                    <div class="stat-value" style="font-size: 1.2rem;" id="eta">--</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="notifications-section">
+            <h2 class="section-title">
+                <span>🔔</span>
+                Yêu Cầu Dừng Xe
+            </h2>
+            <div id="notifications-list">
+                <div class="empty-state">
+                    <div class="empty-icon">✅</div>
+                    <p>Không có yêu cầu dừng mới</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        const SOCKET_URL = 'http://localhost:3000';
+        let authToken = localStorage.getItem('driverToken');
+        let currentUser = null;
+        let currentTrip = null;
+        let socket = null;
+
+        // UI Helpers
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function showScreen(screenId) {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('dashboard-screen').classList.add('hidden');
+            document.getElementById(`${screenId}-screen`).classList.remove('hidden');
+        }
+
+        // Authentication
+        async function login(username, password) {
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    if (data.data.user.role !== 'driver') {
+                        showToast('Chỉ tài xế mới có thể đăng nhập', 'error');
+                        return;
+                    }
+
+                    authToken = data.data.token;
+                    currentUser = data.data.user;
+                    localStorage.setItem('driverToken', authToken);
+
+                    showScreen('dashboard');
+                    initializeDashboard();
+                    showToast('Đăng nhập thành công!', 'success');
+                } else {
+                    showToast(data.message || 'Đăng nhập thất bại', 'error');
+                }
+            } catch (error) {
+                showToast('Lỗi kết nối server', 'error');
+            }
+        }
+
+        // Initialize Dashboard
+        async function initializeDashboard() {
+            document.getElementById('driver-name').textContent = currentUser.full_name;
+
+            // Connect socket
+            socket = io(SOCKET_URL);
+
+            socket.on('connect', () => {
+                console.log('Socket connected');
+            });
+
+            socket.on('stop_request', (data) => {
+                addStopNotification(data);
+                showToast(`Yêu cầu ${data.request_type === 'board' ? 'lên' : 'xuống'} xe tại ${data.station_name}`, 'info');
+            });
+
+            socket.on('location_update', (data) => {
+                updateLocationData(data);
+            });
+
+            // Load active trip
+            loadActiveTrip();
+        }
+
+        async function loadActiveTrip() {
+            try {
+                const response = await fetch(`${API_URL}/trips/active`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.data.length > 0) {
+                    // Find trip for this driver
+                    currentTrip = data.data.find(trip => trip.driver_id === currentUser.id);
+
+                    if (currentTrip) {
+                        document.getElementById('route-badge').textContent = `Tuyến ${currentTrip.route_number}`;
+                        document.getElementById('passenger-count').textContent = currentTrip.passenger_count || 0;
+                        document.getElementById('current-speed').innerHTML = `${currentTrip.current_speed || 0}<span style="font-size: 1rem;"> km/h</span>`;
+
+                        // Join trip room
+                        socket.emit('join_trip', currentTrip.id);
+
+                        // Load trip details
+                        loadTripDetails(currentTrip.id);
+                    }
+                }
+            } catch (error) {
+                console.error('Load trip error:', error);
+            }
+        }
+
+        async function loadTripDetails(tripId) {
+            try {
+                const response = await fetch(`${API_URL}/trips/${tripId}`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Update stop requests
+                    if (data.data.stop_registrations && data.data.stop_registrations.length > 0) {
+                        const notificationsList = document.getElementById('notifications-list');
+                        notificationsList.innerHTML = data.data.stop_registrations.map(req => `
+                            <div class="notification-item ${req.request_type}">
+                                <div class="notification-content">
+                                    <div class="notification-title">
+                                        ${req.request_type === 'board' ? '🟢 Lên xe' : '🔴 Xuống xe'} - ${req.station_name}
+                                    </div>
+                                    <div class="notification-detail">
+                                        Hành khách: ${req.passenger_name}
+                                    </div>
+                                </div>
+                                <button class="btn-acknowledge" onclick="acknowledgeStop(${req.id})">
+                                    Xác nhận
+                                </button>
+                            </div>
+                        `).join('');
+                    }
+                }
+            } catch (error) {
+                console.error('Load trip details error:', error);
+            }
+        }
+
+        function addStopNotification(data) {
+            const notificationsList = document.getElementById('notifications-list');
+            const isEmpty = notificationsList.querySelector('.empty-state');
+
+            if (isEmpty) {
+                notificationsList.innerHTML = '';
+            }
+
+            const notification = document.createElement('div');
+            notification.className = `notification-item ${data.request_type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <div class="notification-title">
+                        ${data.request_type === 'board' ? '🟢 Lên xe' : '🔴 Xuống xe'} - ${data.station_name}
+                    </div>
+                    <div class="notification-detail">
+                        Hành khách mới
+                    </div>
+                </div>
+                <button class="btn-acknowledge">
+                    Xác nhận
+                </button>
+            `;
+
+            notificationsList.insertBefore(notification, notificationsList.firstChild);
+        }
+
+        function updateLocationData(data) {
+            if (data.speed) {
+                document.getElementById('current-speed').innerHTML = `${data.speed}<span style="font-size: 1rem;"> km/h</span>`;
+            }
+        }
+
+        // Event Listeners
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            login(username, password);
+        });
+
+        // Check if already logged in
+        if (authToken) {
+            // Verify token is still valid
+            fetch(`${API_URL}/auth/profile`, {
+                headers: { 'Authorization': `Bearer ${authToken}` }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success && data.data.role === 'driver') {
+                        currentUser = data.data;
+                        showScreen('dashboard');
+                        initializeDashboard();
+                    } else {
+                        localStorage.removeItem('driverToken');
+                    }
+                })
+                .catch(() => {
+                    localStorage.removeItem('driverToken');
+                });
+        }
+    </script>
+</body>
+
+</html>
